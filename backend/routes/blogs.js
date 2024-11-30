@@ -1,6 +1,7 @@
 const express = require("express");
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
@@ -81,18 +82,54 @@ router.put("/:id", async (req, res) => {
 // Delete Blog
 router.delete("/:id", async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) return res.status(404).json({ message: "Blog not found" });
+    // Extract the token from the Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
 
-    if (req.user.role !== "admin") {
+    const token = authHeader.split(" ")[1];
+    let decoded;
+
+    // Decode the token
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your secret key
+    } catch (err) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    const userId = decoded.id; // Assuming your token includes the user ID
+    const role = decoded.role; // Extract the role from the token payload
+
+
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    // Authorization check
+    if (
+      role !== "admin" &&
+      blog.author.toString() !== userId &&
+      !blog.collaborators.some(
+        (collaborator) => collaborator.toString() === userId
+      )
+    ) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    await blog.delete();
+    // Delete the blog
+    await Blog.deleteOne({ _id: req.params.id });
     res.json({ message: "Blog deleted successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
 
 module.exports = router;

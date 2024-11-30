@@ -16,9 +16,10 @@ const AuthProvider = ({ children }) => {
 
   const login = (credentials) =>
     axios.post("/auth/login", credentials).then((res) => {
-      const { token, userId } = res.data; // Destructure token and userId
+      const { token, userId, role } = res.data; // Destructure token and userId
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId); // Store userId in localStorage
+      localStorage.setItem("role", role);
       setToken(token);
       setUserId(userId); // Update state with userId
     });

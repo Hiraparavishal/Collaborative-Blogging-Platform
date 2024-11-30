@@ -8,6 +8,8 @@ import {
   Typography,
   Box,
   Link,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // For redirection
 import "../../styles.css";
@@ -18,6 +20,7 @@ const Login = () => {
   const [error, setError] = useState(""); // State to capture login errors
   const navigate = useNavigate(); // Hook for redirection
 
+  // Handle login submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error message before login attempt
@@ -30,87 +33,106 @@ const Login = () => {
     }
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    // Clear any authentication tokens or session data here
+    console.log("Logged out");
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-      sx={{ backgroundColor: "#f4f4f4" }}
-    >
-      <Card sx={{ width: 400, padding: 3 }}>
-        <CardContent>
-          <Typography variant="h5" align="center" gutterBottom>
-            Login
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      {/* Navigation Bar */}
+      <AppBar position="static" color="primary">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Collaborative Blogging Platform
           </Typography>
+        </Toolbar>
+      </AppBar>
 
-          {/* Display error message if login fails */}
-          {error && (
-            <Typography
-              color="error"
-              variant="body2"
-              align="center"
-              gutterBottom
-            >
-              {error}
-            </Typography>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            {/* Email Field */}
-            <TextField
-              fullWidth
-              label="Email"
-              variant="outlined"
-              margin="normal"
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              required
-            />
-
-            {/* Password Field */}
-            <TextField
-              fullWidth
-              label="Password"
-              variant="outlined"
-              margin="normal"
-              type="password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              required
-            />
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ marginTop: 2 }}
-            >
+      {/* Login Form */}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexGrow={1}
+        sx={{ backgroundColor: "#f4f4f4" }}
+      >
+        <Card sx={{ width: 400, padding: 3 }}>
+          <CardContent>
+            <Typography variant="h5" align="center" gutterBottom>
               Login
-            </Button>
-          </form>
-
-          {/* Link to Registration Page */}
-          <Box mt={2} textAlign="center">
-            <Typography variant="body2">
-              Don't have an account?{" "}
-              <Link
-                href="/register" // Link to registration page
-                sx={{ color: "primary.main", cursor: "pointer" }}
-              >
-                Register
-              </Link>
             </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+
+            {/* Display error message if login fails */}
+            {error && (
+              <Typography
+                color="error"
+                variant="body2"
+                align="center"
+                gutterBottom
+              >
+                {error}
+              </Typography>
+            )}
+
+            <form onSubmit={handleSubmit}>
+              {/* Email Field */}
+              <TextField
+                fullWidth
+                label="Email"
+                variant="outlined"
+                margin="normal"
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                required
+              />
+
+              {/* Password Field */}
+              <TextField
+                fullWidth
+                label="Password"
+                variant="outlined"
+                margin="normal"
+                type="password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                required
+              />
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ marginTop: 2 }}
+              >
+                Login
+              </Button>
+            </form>
+
+            {/* Link to Registration Page */}
+            <Box mt={2} textAlign="center">
+              <Typography variant="body2">
+                Don't have an account?{" "}
+                <Link
+                  href="/register" // Link to registration page
+                  sx={{ color: "primary.main", cursor: "pointer" }}
+                >
+                  Register
+                </Link>
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 };

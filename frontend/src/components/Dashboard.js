@@ -43,6 +43,7 @@ const Dashboard = () => {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const navigate = useNavigate();
   const loggedInUser = localStorage.getItem("userId"); // Get the logged-in user's info
+  const loggedInUserRole = localStorage.getItem("role");
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -86,6 +87,7 @@ const Dashboard = () => {
 
   const isUserAuthorized = (blog) => {
     // Check if the logged-in user is the author or a collaborator
+    if (loggedInUserRole === "admin") return true
     return (
       blog.author?._id === loggedInUser ||
       blog.collaborators.some(

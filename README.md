@@ -21,11 +21,15 @@ Clone the repository to your local machine:
 git clone <repository-url>
 cd project
 
-### Step 2: Run the App
+### Step 2: Create .env file and add below var
+JWT_SECRET=<>
+DB_URI=mongodb://mongo:27017/mydatabase
+
+### Step 3: Run the App
 docker compose up --build
 
 
-### Step 3: Access the Application
+### Step 4: Access the Application
 Frontend: The React UI is available at http://localhost:3000.
 
 Backend: The Node.js API is available at http://localhost:5000.
@@ -33,5 +37,5 @@ Backend: The Node.js API is available at http://localhost:5000.
 MongoDB: The database is running on port 27017.
 
 
-
+# Docs for API 
 https://docs.google.com/document/d/1qcHBo1YXYfX0ebbTZHL7-rv3RbPBe-P88er9JYa_lyk/edit?usp=sharing

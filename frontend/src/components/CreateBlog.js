@@ -92,7 +92,7 @@ const CreateBlog = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Collaborative Blogging Platform
           </Typography>
-          <Button color="inherit" onClick={() => navigate("/")}>
+          <Button color="inherit" onClick={() => navigate("/dashboard")}>
             Dashboard
           </Button>
           <Button color="inherit" onClick={handleLogout}>

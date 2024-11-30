@@ -12,6 +12,11 @@ import {
   Alert,
   AppBar,
   Toolbar,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Chip,
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -33,7 +38,6 @@ const BlogEditor = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [socket, setSocket] = useState(null);
-  
 
   useEffect(() => {
     const socket = io("http://localhost:5000");
@@ -198,6 +202,40 @@ const BlogEditor = () => {
                   onChange={(e) => handleChange("tags", e.target.value)}
                   required
                 />
+
+                {/* Collaborators Dropdown */}
+                <Typography
+                  variant="body1"
+                  sx={{ marginTop: 2, marginBottom: 1 }}
+                >
+                  Collaborators
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    multiple
+                    value={blog.collaborators}
+                    onChange={(e) =>
+                      handleChange("collaborators", e.target.value)
+                    }
+                    renderValue={(selected) => (
+                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                        {selected.map((collaborator) => (
+                          <Chip
+                            key={collaborator._id}
+                            label={collaborator.name}
+                          />
+                        ))}
+                      </Box>
+                    )}
+                    sx={{ backgroundColor: "white" }} // Ensures a clear background for the dropdown
+                  >
+                    {users.map((user) => (
+                      <MenuItem key={user._id} value={user}>
+                        {user.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
                 <Button
                   type="submit"

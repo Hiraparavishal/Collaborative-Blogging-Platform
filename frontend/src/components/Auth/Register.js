@@ -10,12 +10,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Hook for redirection
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import api from "../../api";
-import "../../styles.css"
+import "../../styles.css";
 
 // Yup validation schema
 const validationSchema = Yup.object({
@@ -64,105 +66,124 @@ const Register = () => {
     navigate("/login"); // Redirect to login page
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    // Clear any authentication tokens or session data here
+    console.log("Logged out");
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-      sx={{ backgroundColor: "#f4f4f4" }}
-    >
-      <Card sx={{ width: 400, padding: 3 }}>
-        <CardContent>
-          <Typography variant="h5" align="center" gutterBottom>
-            Register
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      {/* Navigation Bar */}
+      <AppBar position="static" color="primary">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Collaborative Blogging Platform
           </Typography>
+        </Toolbar>
+      </AppBar>
 
-          {error && (
-            <Typography
-              color="error"
-              variant="body2"
-              align="center"
-              gutterBottom
-            >
-              {error}
+      {/* Registration Form */}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexGrow={1}
+        sx={{ backgroundColor: "#f4f4f4" }}
+      >
+        <Card sx={{ width: 400, padding: 3 }}>
+          <CardContent>
+            <Typography variant="h5" align="center" gutterBottom>
+              Register
             </Typography>
-          )}
 
-          <Formik
-            initialValues={{ name: "", email: "", password: "" }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ values, handleChange, handleBlur, touched, errors }) => (
-              <Form>
-                {/* Name Field */}
-                <Field
-                  fullWidth
-                  name="name"
-                  label="Name"
-                  as={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
-                />
-
-                {/* Email Field */}
-                <Field
-                  fullWidth
-                  name="email"
-                  label="Email"
-                  as={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                />
-
-                {/* Password Field */}
-                <Field
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  as={TextField}
-                  variant="outlined"
-                  type="password"
-                  margin="normal"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                />
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  sx={{ marginTop: 2 }}
-                >
-                  Register
-                </Button>
-              </Form>
+            {error && (
+              <Typography
+                color="error"
+                variant="body2"
+                align="center"
+                gutterBottom
+              >
+                {error}
+              </Typography>
             )}
-          </Formik>
-        </CardContent>
-      </Card>
 
-      {/* Dialog (Popup) for Successful Registration */}
-      <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>Registration Successful</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            You have successfully registered. Please log in to continue.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            Go to Login
-          </Button>
-        </DialogActions>
-      </Dialog>
+            <Formik
+              initialValues={{ name: "", email: "", password: "" }}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ values, handleChange, handleBlur, touched, errors }) => (
+                <Form>
+                  {/* Name Field */}
+                  <Field
+                    fullWidth
+                    name="name"
+                    label="Name"
+                    as={TextField}
+                    variant="outlined"
+                    margin="normal"
+                    error={touched.name && Boolean(errors.name)}
+                    helperText={touched.name && errors.name}
+                  />
+
+                  {/* Email Field */}
+                  <Field
+                    fullWidth
+                    name="email"
+                    label="Email"
+                    as={TextField}
+                    variant="outlined"
+                    margin="normal"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
+
+                  {/* Password Field */}
+                  <Field
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    as={TextField}
+                    variant="outlined"
+                    type="password"
+                    margin="normal"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    sx={{ marginTop: 2 }}
+                  >
+                    Register
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </CardContent>
+        </Card>
+
+        {/* Dialog (Popup) for Successful Registration */}
+        <Dialog open={openDialog} onClose={handleDialogClose}>
+          <DialogTitle>Registration Successful</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1">
+              You have successfully registered. Please log in to continue.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose} color="primary">
+              Go to Login
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   );
 };
