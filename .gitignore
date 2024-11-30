@@ -1,4 +1,4 @@
-.DS_STORE
+.*
 node_*
 scripts/flow/*/.flowconfig
 .flowconfig
